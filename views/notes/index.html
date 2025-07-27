@@ -1,0 +1,163 @@
+{{ extends "layout.html" }}
+
+{{define "custom_css"}}
+<link href="/assets/css/select2.min.css" rel="stylesheet">
+{{if and .data.Item .data.Item.ID}}
+<link rel="stylesheet" href="/assets/css/easymde.min.css">
+<link rel="stylesheet" href="/assets/css/highlight-github.min.css">
+<link rel="stylesheet" href="/assets/css/tagify.css">
+<style>
+    /* required fixes when using Bootstrap */
+    button.table {
+        width: 30px;
+    }
+    /* end of fix */
+    .input-group-text {
+        line-height: 1.1;
+        border-radius: 0;
+    }
+    .input-group > .input-group-text {
+        font-size: 0.875rem;
+    }
+    pre code {
+        text-wrap-mode: wrap !important;
+    }
+    div.code {
+        white-space: pre;
+    }
+    /* end of fixes */
+    #note-update-form label {
+        width: 2rem;
+    }
+</style>
+{{end}}
+<style>
+    /* only on larger screens */
+    @media (min-width: 992px) {
+        #tag-list,
+        #notes-list {
+            max-height: 74vh;
+            overflow-y: auto;
+        }
+    }
+    /* on smaller screens the lists must be shorter */
+    @media (max-width: 767px) {
+        #tag-list,
+        #notes-list {
+            max-height: 25vh;
+            overflow-y: auto;
+        }
+        ::-webkit-scrollbar {
+            -webkit-appearance: none;
+            width: 7px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            border-radius: 4px;
+            background-color: rgba(0, 0, 0, .5);
+            box-shadow: 0 0 1px rgba(255, 255, 255, .5);
+        }
+    }
+</style>
+{{end}}
+
+{{define "js-search-box"}}<span class="m-1"><input class="js-search-notes" multiple="multiple"></span>{{end}}
+{{define "content"}}
+{{template "page-title" .data}}
+{{template "error-block" .data}}
+<div class="row">
+    <div class="col-sm-6 col-md-6 col-lg-3 border-end mb-2">
+        <h6>
+            Tags {{if .data.TagsCount}}
+            ({{.data.TagsCount}})
+            <a title="Export Notes" class="btn btn-sm float-end mx-1 p-0 open-export-page"
+                href="/export/notes" rel="noopener noreferrer">
+                <i class="bi bi-cloud-download"></i>
+            </a>
+            {{end}}
+        </h6>
+        <div class="list-group list-group-flush overflow-auto" id="tag-list">
+            {{range .data.Tags}}
+            <a href="/notes?tag={{.}}"
+                class="list-group-item d-flex justify-content-between align-items-center p-1 {{if eq . $.data.Query.Tag}}list-group-item-primary{{end}}">
+                {{.}}
+                {{if eq . $.data.Query.Tag}}
+                <span class="badge bg-primary rounded-pill">{{$.data.ItemsCount}}</span>
+                {{end}}
+            </a>
+            {{end}}
+        </div>
+    </div>
+
+    <div class="col-sm-6 col-md-6 col-lg-3 overflow-auto border-end mb-2" id="anchor-items">
+        <h6>
+            Items <a class="btn btn-sm btn-outline-primary py-0 mx-1 px-1"
+                title="Create a note" href="/note/create?tag={{.data.Query.Tag}}">
+                <i class="bi bi-plus"></i>
+            </a>
+        </h6>
+        <div class="list-group list-group-flush" id="notes-list">
+            {{range .data.Items}}
+            <a href="/notes?note_id={{.ID}}&tag={{$.data.Query.Tag}}"
+                title="{{.Title}}"
+                class="list-group-item list-group-item-action d-flex py-1 ps-1 pe-1 {{if eq .ID $.data.Query.NoteID}}list-group-item-primary{{end}}">
+                <span class="flex-grow-1 overflow-hidden text-truncate">
+                    {{.Title}}
+                </span>
+                {{if eq .ID $.data.Query.NoteID}}
+                <span>
+                    <span class="btn btn-sm btn-outline-danger float-end ms-1 py-0 btn-del-list-note"
+                            title="Delete Note" data-id="{{.ID}}">
+                        <i class="bi bi-trash"></i>
+                    </span>
+                </span>
+                {{end}}
+            </a>
+            {{end}}
+        </div>
+    </div>
+
+    {{if and .data.Item .data.Item.ID}}
+    <div class="col-sm-12 col-md-12 col-lg-6 overflow-auto" id="anchor-content">
+        <div id="note-update-form">
+            <div class="mb-2 mt-2">
+                <div class="input-group">
+                    <span class="input-group-text">
+                        <label for="note-title" class="form-label m-0">Title</label>
+                    </span>
+                    <input type="text" class="form-control form-control-sm"
+                        autocomplete="off"
+                        id="note-title" name="title" value="{{.data.Item.Title}}" required>
+                </div>
+            </div>
+            <div class="mb-2">
+                <div class="input-group">
+                    <span class="input-group-text">
+                        <label for="tags" class="form-label m-0">Tags</label>
+                    </span>
+                    <input type="text" class="form-control form-control-sm" autocomplete="off"
+                            value="{{.data.Item.Tags | commaSeparated}}"
+                            id="tags" placeholder="Tags (comma- or space-separated)">
+                </div>
+            </div>
+            <textarea class="form-control h-100 editor-container" rows="20" name="content" id="editor-container-{{.data.Item.ID}}">{{.data.Item.Content}}</textarea>
+            <input type="hidden" name="note_id" id="note-id" value="{{.data.Item.ID}}">
+            
+            <button type="submit" class="btn btn-sm btn-primary" id="btn-update">Save</button>
+        </div>
+    </div>
+    {{end}}
+</div>
+{{end}}
+
+{{define "custom_js"}}
+<script src="/assets/js/select2.min.js"></script>
+<script src="/assets/js/tagify.min.js"></script>
+<script src="/assets/js/tagify.polyfills.min.js"></script>
+{{- if and $.data.Item $.data.Item.ID}}
+<script src="/assets/js/easymde.min.js"></script>
+<script src="/assets/js/highlight.min.js"></script>
+<script src="/assets/js/notes/index-existing.js"></script>
+{{- end}}
+<script src="/assets/js/notes/index.js"></script>
+{{end}}

@@ -1,0 +1,200 @@
+{{ extends "layout.html" }}
+
+{{define "custom_css"}}
+<link href="/assets/css/venobox.min.css" rel="stylesheet">
+<link href="/assets/css/filebrowser.css" rel="stylesheet">
+<style>
+    .input-group > * {
+        border-radius: 0;
+    }
+    .files-list {
+        padding: .35rem;
+        height: 65vh;
+        overflow-y: auto;
+    }
+    .file-item {
+        display: inline-block !important;
+        width: 13.5rem;
+        text-align: left;
+        margin: 0.15rem;
+    }
+    .file-icon {
+        width: 32px;
+        height: 32px;
+        padding-right: 2px;
+    }
+    .file-name {
+        font-size: .8rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        width: 95%;
+        max-width: 95%;
+    }
+    .file-size {
+        font-size: .75rem;
+        color: #666;
+        text-align: left;
+        vertical-align: text-bottom;
+    }
+    @media (max-width: 576px) {
+        .file-item {
+            width: 98%;
+        }
+        input#file-input {
+            width: 1rem;
+        }
+    }
+</style>
+{{end}}
+
+{{define "content"}}
+{{template "page-title" .data}}
+{{template "error-block" .data}}
+
+<!-- right-click context menu -->
+<ul class="context-menu dropdown-menu" id="context-menu"></ul>
+<div class="row">
+<div class="col-md-12">
+    <div class="card">
+        <div class="card-header d-flex justify-content-left align-items-start">
+            {{if not ($.data.BasePath | isHomeDir)}}
+            <div class="pe-2" title="Go Home">
+                <a href="/filebrowser">
+                    <i class="bi bi-house-door-fill"></i>
+                </a>
+            </div>
+            <div class="pe-2" title="Go to parent directory">
+                <a href="/filebrowser?path={{$.data.ParentPath}}" class="">
+                    <i class="bi bi-arrow-up-circle"></i>
+                </a>
+            </div>
+            {{end}}
+            <p class="card-title mb-0 pe-2 flex-fill text-truncate text-nowrap">
+                {{$.data.BasePath}}
+            </p>
+        </div>
+        <div class="d-flex">
+            <div id="add-folder" class="flex-shrink-1">
+                <div class="input-group">
+                    <input type="text" id="folder-name" class="form-control form-control-sm"
+                        autocapitalize="off" autocomplete="off"
+                        placeholder="New folder name" aria-label="New folder name">
+                    <span class="btn btn-primary btn-sm" id="create-folder-button">
+                        <i class="bi bi-folder-plus"></i>
+                    </span>
+                </div>
+            </div>
+            <div id="file-upload" class="w-100">
+                <!-- spinner -->
+                <form id="upload-form" action="/filebrowser/upload" method="post" enctype="multipart/form-data">
+                    <div class="d-flex justify-content-center">
+                        <div class="spinner-border" role="status">
+                            <span class="visually-hidden">Uploading...</span>
+                        </div>
+                        <div class="input-group">
+                        <input type="file" name="files" multiple
+                            max="3" required
+                            class="form-control form-control-sm"
+                            accept="*/*" id="file-input">
+                        <span class="btn btn-primary btn-sm" id="upload-button">
+                            <i class="bi bi-upload"></i>
+                        </span>
+                    </div>
+                    </div>
+                    <input type="hidden" name="path" value="{{$.data.BasePath}}">
+                </form>
+            </div>
+            <div class="flex-shrink-1 ms-auto">
+                <div class="btn-group">
+                    <span class="btn btn-{{if eq $.data.Mode "tile" }}outline-{{end}}secondary btn-sm btn-list-view" title="List view">
+                        <i class="bi bi-list"></i>
+                    </span>
+                    <span class="btn btn-{{if eq $.data.Mode "list" }}outline-{{end}}secondary btn-sm btn-tile-view" title="Tile view">
+                        <i class="bi bi-grid"></i>
+                    </span>
+                    <a tabindex="0" class="btn btn-sm btn-info" data-bs-toggle="popover"
+                        data-bs-title="Help"
+                        data-bs-content="Click to open files or folders. Right-click for more options. Long press on mobile to open context menu. Images are single-click viewable.">
+                        <i class="bi bi-question-circle"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="card-body files-list">
+            {{if .data.Files}}
+            {{range .data.Files}}
+            {{if .IsDir}}
+            <!-- or as 2-column list -->
+            <div class="file-item d-flex" title="{{.Name}}">
+                <a href="/filebrowser?path={{.Path | cleanPath}}"
+                    class="flex-grow-1 d-flex align-items-center justify-content-start folder-item file-link"
+                    data-name="{{.Name}}" data-type="folder">
+                    <img src="/assets/images/folder.png" alt="folder icon" class="file-icon">
+                    <!-- long text will be ellipsized -->
+                    <span
+                        class="file-name d-inline-block text-truncate text-nowrap"
+                        >{{.Name}}</span>
+                </a>
+            </div>
+            {{end}}
+            {{end}}
+            {{range .data.Files}}
+            {{if not .IsDir}}
+            <div class="file-item d-flex" title="{{.Name}} | {{.MimeType}}">
+                <a 
+                    data-name="{{.Name}}"
+                    data-type="file"
+                    {{if .Name | isImage}}
+                    class="file-link venobox flex-grow-1 d-flex align-items-center justify-content-start"
+                    data-gall="gallery" data-title="{{.Name}}" data-type="image"
+                    href="/filebrowser/view?path={{.Path | cleanPath}}"
+                    {{else if .Name | isViewable}}
+                    data-href="/filebrowser/view?path={{.Path | cleanPath}}"
+                    href="#"
+                    class="file-link flex-grow-1 d-flex align-items-center justify-content-start {{if eq .MimeType "application/octet-stream"}}{{else}}viewable-file-link{{end}}"
+                    {{else}}
+                    href="#" class="file-link flex-grow-1 d-flex align-items-center justify-content-start"
+                    {{end}}
+                    >
+                    {{if eq .MimeType "application/octet-stream"}}
+                    <img src="/assets/images/file.png" alt="file icon" class="file-icon">
+                    {{else}}
+                    <img src="/assets/images/{{.Name | fileIconFromExt}}.png"
+                        alt="file icon" class="file-icon">
+                    {{end}}
+                    <span class="file-name flex-fill">
+                        {{.Name}}
+                        <div class="file-size flex-shrink-1">{{.Size | bytesToHuman}}; Mod: {{.Modified}}</div>
+                    </span>
+                </a>
+            </div>
+            {{end}}
+            {{end}}
+            {{else}}
+            <p class="text-muted">
+                No files or directories found. Upload some files to get started.
+            </p>
+            {{end}}
+        </div>
+    </div>
+</div>
+</div>
+
+<div class="modal" id="my-dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header"></div>
+      <div class="modal-body"></div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+        </div>
+    </div>
+  </div>
+</div>
+{{end}}
+
+{{define "custom_js"}}
+<script src="/assets/js/venobox.min.js"></script>
+<script src="/assets/js/filebrowser.js?v=1"></script>
+{{end}}

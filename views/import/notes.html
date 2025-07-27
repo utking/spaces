@@ -1,0 +1,28 @@
+{{ extends "layout.html" }}
+
+{{define "content"}}
+{{template "page-title" .data}}
+{{template "error-block" .data}}
+<form method="post" enctype="multipart/form-data">
+    <div class="mb-3">
+        <input type="file" class="form-control" id="files" name="files" accept=".json" required>
+        <div class="form-text">Upload a JSON file containing notes.</div>
+    </div>
+
+    <a href="/notes" class="btn btn-outline-secondary">To Notes</a>
+    <button type="submit" class="btn btn-outline-primary">Import</button>
+</form>
+
+{{if $.data.Total}}<div class="alert alert-success mt-3">
+    <p>{{$.data.Processed}} / {{$.data.Total}} notes imported successfully. Check below for related logs.</p>
+</div>
+{{end}}
+
+{{if $.data.Errors}}<div class="alert alert-warning mt-3">
+    <ul>
+        {{range $item := $.data.Errors}}
+        <li>{{$item}}</li>
+        {{end}}
+    </ul>
+</div>{{end}}
+{{end}}

@@ -1,0 +1,10 @@
+{{define "error-block"}}<div id="error-block" class="alert alert-danger px-1 py-1" role="alert" {{ if .Error }} style="display: block;" {{ end }}>
+    <div class="d-flex px-0 py-0">
+        <div class="p-1 m-0 w-100 error-content">
+            {{ if .Error }}<i class="bi bi-exclamation-triangle-fill"></i> {{ .Error }}{{end}}
+        </div>
+        <div class="btn btn-sm flex-shrink-1 btn-error-hide" aria-label="Close">
+            <i class="bi bi-x-lg"></i>
+        </div>
+    </div>
+</div>{{end}}

@@ -1,0 +1,9 @@
+- user_id: uuid-user-12345
+  item_name: admin
+  created_at: 2023-10-01T12:00:00Z
+- user_id: uuid-user-67890
+  item_name: user
+  created_at: 2023-10-02T12:00:00Z
+- user_id: uuid-user-11223
+  item_name: user
+  created_at: 2023-10-03T12:00:00Z

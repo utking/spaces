@@ -1,0 +1,15 @@
+services:
+  mysql:
+    image: percona:8.0-centos
+    ports:
+      - "13306:3306"
+    environment:
+      MYSQL_DATABASE: spaces
+      MYSQL_USER: spaces
+      MYSQL_PASSWORD: secret
+      MYSQL_ROOT_PASSWORD: secret
+  mailcatcher:
+    image: schickling/mailcatcher
+    ports:
+      - "1080:1080"
+      - "1025:1025"

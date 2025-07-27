@@ -1,0 +1,55 @@
+{{ extends "layout.html" }}
+{{define "content"}}
+{{template "error-block" .data}}
+{{template "page-title" .data}}
+<form method="post">
+    <div class="mb-3">
+        <label class="form-label" for="email">Email</label>
+        <input type="email" class="form-control"
+            id="email"
+            autocomplete="off"
+            autofocus
+            name="email" aria-describedby="email"
+            placeholder="Email"
+            value="{{.data.Query.Email}}">
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label" for="username">Username</label>
+        <input type="text" class="form-control"
+            id="username"
+            autocomplete="off"
+            name="username" aria-describedby="username"
+            placeholder="Username"
+            value="{{.data.Query.Username}}">
+    </div>
+    
+    <div class="mb-3 row">
+        <div class="col-md-6">
+            <label class="form-label" for="password">Password</label>
+            <input type="password" class="form-control"
+                name="password" aria-describedby="password"
+                placeholder="Password"
+                value="{{.data.Query.Password}}">
+        </div>
+        <div class="col-md-6">
+            <label class="form-label" for="password-confirm">Confirm Password</label>
+            <input type="password" class="form-control"
+                name="password_confirm" aria-describedby="password-confirm"
+                placeholder="Confirm Password">
+        </div>
+    </div>
+
+     <div class="form-check mb-3">
+        <input class="form-check-input" type="checkbox"
+                value="true"
+                id="send_notification" name="send_notification" checked>
+        <label class="form-check-label" for="send_notification">
+            Send registration notification email
+        </label>
+    </div>
+
+    <a href="/users" class="btn btn-outline-secondary">Back</a>
+    <button type="submit" class="btn btn-outline-primary">Submit</button>
+</form>
+{{end}}

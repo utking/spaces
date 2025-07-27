@@ -1,0 +1,102 @@
+{{ extends "layout.html" }}
+{{define "content"}}
+    {{template "error-block" .data}}
+
+    {{ if .data.Item }}
+    {{template "page-title" .data}}
+    <form id="edit-form" onsubmit="return false;">
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <div class="mb-3">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control"
+                        id="email"
+                        autocomplete="off"
+                        autofocus
+                        name="email" aria-describedby="email"
+                        placeholder="Email"
+                        value="{{.data.Item.Email}}">
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <fieldset disabled>
+                    <div class="mb-3">
+                        <label for="username">Username</label>
+                        <input type="text" class="form-control disabled"
+                            id="username"
+                            name="username"
+                            aria-describedby="username"
+                            placeholder="Username"
+                            value="{{.data.Item.Username}}">
+                        <div id="username" class="form-text">
+                            Username is not editable.
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control"
+                        id="password"
+                        autocomplete="off"
+                        name="password" aria-describedby="password"
+                        placeholder="Password">
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    <label for="password_confirm">Confirm Password</label>
+                    <input type="password" class="form-control"
+                        id="password_confirm"
+                        autocomplete="off"
+                        name="password_confirm" aria-describedby="Password Confirmation"
+                        placeholder="Confirm Password">
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <div class="mb-3">
+                    <label for="status">Status</label>
+                    <select class="form-select" id="status" name="status">
+                        {{range $item := .data.Statuses}}
+                        <option
+                            {{if eq $item.ID $.data.Item.Status}} selected="selected" {{end}}
+                            value="{{$item.ID}}">{{$item.Title}}</option>
+                        {{end}}
+                    </select>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <div class="mb-3">
+                    <label for="role">Role</label>
+                    <select class="form-select" id="role" name="role_name">
+                        <option value="">(select role)</option>
+                        {{if $.data.Roles}}
+                        {{range $item := $.data.Roles}}
+                        <option
+                            {{if eq $item $.data.Item.RoleName}} selected="selected" {{end}}
+                            value="{{$item}}">{{$item}}</option>
+                        {{end}}
+                        {{end}}
+                    </select>
+                </div>
+            </div>
+        </div>
+        
+        <a href="/user/{{.data.Item.ID}}" class="btn btn-outline-secondary">Back</a>
+        <span id="submit-update" class="btn btn-outline-primary">Submit</span>
+        <input type="hidden" id="id" name="id" value="{{.data.Item.ID}}">
+    </form>
+    {{ else }}
+    <p>It may have been deleted or never existed.</p>
+    <p>See the list of <a href="/users">users</a></p>
+    {{ end }}
+{{end}}
+
+{{ define "custom_js"}}
+<script src="/assets/js/users/edit.js"></script>
+{{end}}

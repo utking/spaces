@@ -1,0 +1,92 @@
+{{ extends "layout.html" }}
+
+{{define "custom_css"}}
+<style>
+.col-attr {
+    width: 10rem;
+    font-weight: bold;
+}
+.status-10 {
+    color: green;
+    font-weight: bold;
+}
+.status-0 {
+    color: red;
+    font-weight: bold;
+}
+</style>
+{{end}}
+{{define "content"}}
+{{template "error-block" .data}}
+{{if .data.Item}}
+{{template "page-title" .data}}
+<div class="card mb-2">
+    <div class="card-header">
+        <h5 class="card-title">Username: {{.data.Item.Username}}</h5>
+    </div>
+
+    <div class="cart-body">
+    <table class="table table-sm">
+        <tbody>
+            <tr>
+                <td class="col-attr">Email</td>
+                <td>
+                    <a href="mailto:{{.data.Item.Email}}">
+                        {{.data.Item.Email}}
+                    </a>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-attr">Role</td>
+                <td>
+                    {{.data.Item.RoleName}}
+                </td>
+            </tr>
+            <tr>
+                <td class="col-attr">Status</td>
+                <td class="status-{{.data.Item.Status}}">
+                    {{index $.data.Statuses .data.Item.Status}}
+                </td>
+            </tr>
+            <tr>
+                <td class="col-attr">Disk Use</td>
+                <td>
+                    {{.data.DiskUse | bytesToHuman}}
+                </td>
+            </tr>
+            <tr>
+                <td class="col-attr">Created</td>
+                <td>
+                    {{ .data.Item.CreatedAt | formatDateTime }}
+                </td>
+            </tr>
+            <tr>
+                <td class="col-attr">Updated</td>
+                <td>
+                    {{ .data.Item.UpdatedAt | formatDateTime }}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    </div>
+
+    <div class="card-footer">
+        <a href="/users" class="btn btn-outline-secondary">Back</a>
+        {{- if .data.Item}}
+        <a href="/user/{{.data.Item.ID}}/edit" class="btn btn-outline-primary">Edit...</a>
+        {{- if .data.Item.Status}}
+        <span class="btn btn-outline-danger" data-toggle="modal" id="delete-item">Suspend</span>
+        {{- end}}
+        <input type="hidden" id="id" name="id" value="{{.data.Item.ID}}">
+        {{- end}}
+    </div>
+</div>
+{{else}}
+<p>No user found</p>
+<p>See the list of <a href="/users">users</a></p>
+{{end}}
+{{end}}
+
+{{define "custom_js"}}
+<script src="/assets/js/users/view.js"></script>
+{{end}}

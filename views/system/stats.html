@@ -1,0 +1,78 @@
+{{ extends "layout.html" }}
+
+{{define "content"}}
+{{template "error-block" .data}}
+{{template "page-title" .data}}
+<div class="row">
+    <div class="col-lg-3 col-md-2"></div>
+    <div class="col-lg-6 col-md-8">
+    {{if not .data.Error}}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Metric</th>
+                <th>Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{if .data.Stats}}
+            <tr>
+                <th>Active Users</th>
+                <td>
+                    <a href="/users?status=10">{{.data.Stats.ActiveUsers}}</a>
+                </td>
+            </tr>
+            <tr>
+                <th>Inactive Users</th>
+                <td>
+                    <a href="/users?status=0">{{.data.Stats.InactiveUsers}}</a>
+                </td>
+            </tr>
+            {{end}}
+            <tr>
+                <th>Disk Use</th>
+                <td>{{.data.DiskUse | bytesToHuman}}</td>
+            </tr>
+            <tr>
+                <th>Notes</th>
+                <td>{{.data.Stats.Notes}}</td>
+            </tr>
+            <tr>
+                <th>Note Tags</th>
+                <td>{{.data.Stats.NoteTags}}</td>
+            </tr>
+            <tr>
+                <th>Secrets</th>
+                <td>{{.data.Stats.Secrets}}</td>
+            </tr>
+            <tr>
+                <th>Secret Tags</th>
+                <td>{{.data.Stats.SecretTags}}</td>
+            </tr>
+            <tr>
+                <th>Bookmarks</th>
+                <td>{{.data.Stats.Bookmarks}}</td>
+            </tr>
+            <tr>
+                <th>Bookmark Tags</th>
+                <td>{{.data.Stats.BookmarkTags}}</td>
+            </tr>
+            <tr>
+                <th>CPU cores available</th>
+                <td>{{.data.Stats.TotalCPU}}</td>
+            </tr>
+            <tr>
+                <th>Heap allocated</th>
+                <td>{{.data.Stats.MemoryAlloc | bytesToHuman}}</td>
+            </tr>
+            <tr>
+                <th>Allocations</th>
+                <td>{{.data.Stats.Allocations | formatNumber}}</td>
+            </tr>
+        </tbody>
+    </table>
+    {{end}}
+    </div>
+    <div class="col-lg-3 col-md-2"></div>
+</div>
+{{end}}

@@ -1,0 +1,48 @@
+.context-menu{
+    position: fixed;
+    display: none;
+    width: 140px;
+    box-shadow: 2px 2px 9px #aaa;
+    overflow: hidden;
+    border:solid 1px #aaa;
+    z-index: 1000;
+}
+.file-link {
+    text-decoration: none;
+    color: inherit;
+}
+.file-link:hover {
+    text-decoration: underline;
+}
+.file-link:focus {
+    outline: none;
+}
+.file-link:focus .file-icon {
+    border: 2px solid #007bff;
+}
+.file-link:focus .file-name {
+    color: #007bff;
+}
+.file-link:focus .file-size {
+    color: #007bff;
+}
+.modal {
+    --bs-modal-width: 96%;
+    margin: 1rem auto;
+}
+#my-dialog div.modal-dialog {
+    width: 96%;
+    height: 96%;
+    margin: auto;
+}
+#my-dialog div.modal-content {
+    height: 100%;
+    width: 100%;
+    border-radius: 0;
+}
+.spinner-border {
+    display: none;
+}
+input#file-input {
+    width: 6rem;
+}

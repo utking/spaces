@@ -1,0 +1,117 @@
+{{define "html-menu"}}<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+    {{- if and .username }}
+    {{- if and .menu .menu.SimpleItems}}
+    {{range .menu.SimpleItems}}
+        <li class="nav-item">
+            <a class="nav-link" href="{{.URIPath}}" {{- if .Target}}target="{{.Target}}" {{- end}}>{{.Title}}</a>
+        </li>
+    {{- end}}
+    {{- end}}
+    {{- if and .menu .menu.UserItems }}
+    {{range .menu.UserItems}}
+        {{range $title, $items := .}}
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            {{$title}}</a>
+            <ul class="dropdown-menu">
+                {{range $menuItem := $items}}
+                    {{- if eq $menuItem.Type "submenu"}}
+                    <li class="dropdown-submenu">
+                        <a class="dropdown-item dropdown-toggle" href="#">{{$menuItem.Title}}</a>
+                        <ul class="dropdown-menu">
+                        {{range $menuItem.SubItems}}
+                            {{- if eq .Title "-"}}
+                            <div class="dropdown-divider"></div>
+                            {{- else}}
+                            <li><a class="dropdown-item" href="{{.URIPath}}" {{- if .Target}}target="{{.Target}}" {{- end}}>{{.Title}}</a></li>
+                            {{- end}}
+                        {{- end}}
+                        </ul>
+                    </li>
+                    {{- else}}
+                        {{- if eq $menuItem.Title "-"}}
+                    <div class="dropdown-divider"></div>
+                        {{- else}}
+                    <li><a class="dropdown-item" href="{{$menuItem.URIPath}}" {{- if $menuItem.Target}}target="{{$menuItem.Target}}" {{- end}}>{{$menuItem.Title}}</a></li>
+                        {{- end}}
+                    {{- end}}
+                {{- end}}
+            </ul>
+        </li>
+        {{- end}}
+    {{- end}}
+    {{- end}}
+    {{- if and .menu .menu.AccountItems }}
+    {{range .menu.AccountItems}}
+        {{range $title, $items := .}}
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            {{$title}}</a>
+            <ul class="dropdown-menu">
+                {{range $menuItem := $items}}
+                    {{- if eq $menuItem.Type "submenu"}}
+                    <li class="dropdown-submenu">
+                        <a class="dropdown-item dropdown-toggle" href="#">{{$menuItem.Title}}</a>
+                        <ul class="dropdown-menu">
+                        {{range $menuItem.SubItems}}
+                            {{- if eq .Title "-"}}
+                            <div class="dropdown-divider"></div>
+                            {{- else}}
+                            <li><a class="dropdown-item" href="{{.URIPath}}" {{- if .Target}}target="{{.Target}}" {{- end}}>{{.Title}}</a></li>
+                            {{- end}}
+                        {{- end}}
+                        </ul>
+                    </li>
+                    {{- else}}
+                        {{- if eq $menuItem.Title "-"}}
+                    <div class="dropdown-divider"></div>
+                        {{- else}}
+                    <li><a class="dropdown-item" href="{{$menuItem.URIPath}}" {{- if $menuItem.Target}}target="{{$menuItem.Target}}" {{- end}}>{{$menuItem.Title}}</a></li>
+                        {{- end}}
+                    {{- end}}
+                {{- end}}
+            </ul>
+        </li>
+        {{- end}}
+    {{- end}}
+    {{- end}}
+    {{- if and .menu .menu.AdminItems }}
+    {{range .menu.AdminItems}}
+        {{range $title, $items := .}}
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            {{$title}}</a>
+            <ul class="dropdown-menu">
+                {{range $menuItem := $items}}
+                    {{- if eq $menuItem.Type "submenu"}}
+                    <li class="dropdown-submenu">
+                        <a class="dropdown-item dropdown-toggle" href="#">{{$menuItem.Title}}</a>
+                        <ul class="dropdown-menu">
+                        {{range $menuItem.SubItems}}
+                            {{- if eq .Title "-"}}
+                            <div class="dropdown-divider"></div>
+                            {{- else}}
+                            <li><a class="dropdown-item"
+                                href="{{.URIPath}}" {{- if .Target}}target="{{.Target}}" {{- end}}>
+                                    {{.Title}}</a></li>
+                            {{- end}}
+                        {{- end}}
+                        </ul>
+                    </li>
+                    {{- else}}
+                        {{- if eq $menuItem.Title "-"}}
+                    <div class="dropdown-divider"></div>
+                        {{- else}}
+                    <li><a class="dropdown-item"
+                        href="{{$menuItem.URIPath}}" {{- if $menuItem.Target}}target="{{$menuItem.Target}}" {{- end}}>
+                            {{$menuItem.Title}}</a></li>
+                        {{- end}}
+                    {{- end}}
+                {{- end}}
+            </ul>
+        </li>
+        {{- end}}
+    {{- end}}
+    {{- end}}
+    {{- end}}
+</ul>{{- end}}

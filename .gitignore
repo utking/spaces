@@ -1,0 +1,9 @@
+/.vscode
+/bin
+/.env
+/tmp
+/cover.out
+/local
+/logs
+__debug*
+/uploads

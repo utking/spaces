@@ -1,0 +1,117 @@
+{{ extends "layout.html" }}
+
+{{define "custom_css"}}
+<link rel="stylesheet" href="/assets/css/easymde.min.css">
+<link rel="stylesheet" href="/assets/css/highlight-github.min.css">
+<link rel="stylesheet" href="/assets/css/tagify.css">
+<style>
+    /* required fixes when using Bootstrap */
+    button.table {
+        width: 30px;
+    }
+    /* end of fix */
+    .input-group-text {
+        line-height: 1.1;
+        border-radius: 0;
+    }
+    .input-group > .input-group-text {
+        font-size: 0.875rem;
+    }
+    pre code {
+        text-wrap-mode: wrap !important;
+    }
+    div.code {
+        white-space: pre;
+    }
+    /* end of fixes */
+    #note-create-form label {
+        width: 2rem;
+    }
+    
+    /* only on larger screens */
+    @media (min-width: 992px) {
+        #tag-list {
+            height: 74vh;
+            overflow-y: auto;
+        }
+    }
+    /* on smaller screens the lists must be shorter */
+    @media (max-width: 767px) {
+        #tag-list {
+            max-height: 25vh;
+            overflow-y: auto;
+        }
+        ::-webkit-scrollbar {
+            -webkit-appearance: none;
+            width: 7px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            border-radius: 4px;
+            background-color: rgba(0, 0, 0, .5);
+            box-shadow: 0 0 1px rgba(255, 255, 255, .5);
+        }
+    }
+</style>
+{{end}}
+
+{{define "content"}}
+{{template "page-title" .data}}
+{{template "error-block" .data}}
+<div class="row">
+    <div class="col-sm-12 col-md-4 col-lg-2 border-end mb-2">
+        <h6>
+            Tags {{if .data.TagsCount}}({{.data.TagsCount}}){{end}}
+        </h6>
+        <div class="list-group list-group-flush overflow-auto" id="tag-list">
+            {{range .data.Tags}}
+            <a href="/notes?tag={{.}}"
+                class="list-group-item d-flex justify-content-between align-items-center p-1 {{if eq . $.data.Query.Tag}}list-group-item-primary{{end}}">
+                {{.}}
+                {{if eq . $.data.Query.Tag}}
+                <span class="badge bg-primary rounded-pill">{{$.data.ItemsCount}}</span>
+                {{end}}
+            </a>
+            {{end}}
+        </div>
+    </div>
+
+    <div class="col-sm-12 col-md-8 col-lg-10 overflow-auto" id="anchor-content">
+        <h6 class="mb-2">Note Content</h6>
+        <div id="note-create-form">
+            <div class="mb-2 mt-2">
+                <div class="input-group">
+                    <span class="input-group-text">
+                        <label for="note-title" class="form-label m-0">Title</label>
+                    </span>
+                    <input type="text" class="form-control form-control-sm"
+                        autofocus autocomplete="off"
+                        id="note-title" name="title" required>
+                </div>
+            </div>
+            <div class="mb-2">
+                <div class="input-group">
+                    <span class="input-group-text">
+                        <label for="content_tag_id" class="form-label m-0">Tags</label>
+                    </span>
+                    <input type="text" class="form-control form-control-sm" autocomplete="off"
+                            {{if .data.Query.Tag}}value="{{.data.Query.Tag}}"{{end}}
+                            id="tags" placeholder="Tags (comma- or space-separated)">
+                </div>
+            </div>
+            <textarea class="form-control h-100 editor-container" id="editor-container"
+                    rows="20" name="content"></textarea>
+            
+            <button type="submit" class="btn btn-sm btn-primary" id="add-item">Save</button>
+        </div>
+    </div>
+</div>
+{{end}}
+
+{{define "custom_js"}}
+<script src="/assets/js/tagify.min.js"></script>
+<script src="/assets/js/tagify.polyfills.min.js"></script>
+<script src="/assets/js/easymde.min.js"></script>
+<script src="/assets/js/highlight.min.js"></script>
+<script src="/assets/js/notes/create.js"></script>
+{{end}}

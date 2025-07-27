@@ -1,0 +1,9 @@
+- user_id: uuid-user-12345
+  item_id: uuid-note-12345
+  item_type: note_id
+- user_id: uuid-user-67890
+  item_id: uuid-note-67890
+  item_type: note_id
+- user_id: uuid-user-12345
+  item_id: uuid-bookmark-54321
+  item_type: 'bookmark_tag'

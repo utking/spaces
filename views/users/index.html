@@ -1,0 +1,141 @@
+{{ extends "layout.html" }}
+
+{{define "custom_css"}}
+<style>
+    .col-action {
+        width: 5rem;
+        white-space: nowrap;
+        text-align: left;
+    }
+    .col-status {
+        width: 10rem;
+    }
+    .status-Inactive {
+        color: red;
+    }
+    .text-Inactive {
+        text-decoration: line-through;
+    }
+</style>
+{{end}}
+
+{{define "content"}}
+{{template "error-block" .data}}
+{{template "page-title" .data}}
+<div class="d-flex">
+    <div class="p-1">
+        <nav>
+            <ul class="pagination">
+                <li class="page-item">
+                    <a href="/user/create" class="page-link" title="Create new user">
+                        <i class="bi bi-person-add"></i></a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+<div class="table-responsive">
+    <form method="get">
+    <table class="table table-striped table-sm">
+        <thead class="table-secondary">
+            <tr>
+                <th>Username</th>
+                <th class="d-none d-sm-table-cell">Email</th>
+                <th class="d-none d-sm-table-cell">Role</th>
+                <th class="col-status">Status</th>
+                <th class="col-action"></th>
+            </tr>
+            <tr>
+                <th scope="d-sm-table-cell">
+                    <input type="text"
+                        name="username"
+                        autofocus
+                        autocomplete="off"
+                        placeholder="Username"
+                        {{if .data.Query }}
+                        value="{{.data.Query.Username}}"
+                        {{end}}
+                        class="form-control form-control-sm">
+                </th>
+                <th class="d-none d-sm-table-cell">
+                    <input type="text"
+                        name="email"
+                        autocomplete="off"
+                        placeholder="Email"
+                        {{if .data.Query }}
+                        value="{{.data.Query.Email}}"
+                        {{end}}
+                        class="form-control form-control-sm">
+                </th>
+                <th class="d-none d-sm-table-cell"></th>
+                <th class="col-status">
+                    <select name="status" class="form-select form-select-sm" id="status-select">
+                        <option value="">(any status)</option>
+                        {{$queryStatus := .data.Query.Status}}
+                        {{range $status := $.data.Statuses}}
+                            <option value="{{$status.ID}}"
+                                {{if $queryStatus}}
+                                {{if cmpToInt64Ref $status.ID $queryStatus}} selected {{end}}
+                                {{end}}>
+                                {{$status.Title}}
+                            </option>
+                        {{end}}
+                    </select>
+                </th>
+                <th class="col-action">
+                    <button class="btn btn-sm btn-outline-primary" type="submit" title="Filter">
+                        <i class="bi bi-funnel"></i>
+                    </button>
+                    <a class="btn btn-sm btn-outline-secondary" title="Reset search" href="/users">
+                        <i class="bi bi-arrow-clockwise"></i>
+                    </a>
+                </th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {{range $item := .data.Items}}
+            <tr>
+                <td>
+                    <span class="text-{{ index $.data.Statuses $item.Status }}">
+                        <a href="/user/{{ $item.ID }}">{{ $item.Username }}</a>
+                    </span>
+                </td>
+                <td class="d-none d-sm-table-cell">
+                    <span class="text-{{ index $.data.Statuses $item.Status }}">
+                        <a href="emailto:{{ $item.Email }}">{{ $item.Email }}</a>
+                    </span>
+                </td>
+                <td class="d-none d-sm-table-cell">
+                    <span class="text-{{ index $.data.Statuses $item.Status }}">{{ $item.RoleName }}</span>
+                </td>
+                <td>
+                    <span class="status-{{ index $.data.Statuses $item.Status }}">
+                        {{ index $.data.Statuses $item.Status }}
+                    </span>
+                </td>
+                <td class="col-action">
+                    <a href="/user/{{ $item.ID }}/edit" class="btn btn-outline-primary btn-sm"
+                        title="Edit">
+                        <i class="bi bi-pencil-square"></i>
+                    </a>
+                    {{if $item.Status}}
+                    <span class="btn btn-outline-danger btn-sm delete-item delete-item"
+                        title="Suspend"
+                        data-name="{{$item.Username}}" data-id="{{$item.ID}}">
+                        <i class="bi bi-pause"></i>
+                    </span>
+                    {{end}}
+                </td>
+            </tr>
+            {{ end }}
+        </tbody>
+    </table>
+    </form>
+</div>
+{{end}}
+
+{{define "custom_js"}}
+<script src="/assets/js/users/index.js"></script>
+{{end}}

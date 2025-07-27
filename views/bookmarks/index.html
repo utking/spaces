@@ -1,0 +1,156 @@
+{{ extends "layout.html" }}
+
+{{define "custom_css"}}
+<link href="/assets/css/select2.min.css" rel="stylesheet">
+<link href="/assets/css/tagify.css" rel="stylesheet">
+<style>
+    #add-bookmark-form {
+        display: none;
+    }
+    .input-group-text {
+        line-height: 1.1;
+        border-radius: 0;
+        width: 4rem;
+    }
+    .input-group > .input-group-text {
+        font-size: 0.875rem;
+    }
+    .card-body {
+        padding: 0.5rem !important;
+    }
+    /* only on larger screens */
+    @media (min-width: 992px) {
+        #tag-list,
+        #anchor-items {
+            max-height: 74vh;
+            overflow-y: auto;
+        }
+    }
+    /* on smaller screens the lists must be shorter */
+    @media (max-width: 767px) {
+        #tag-list {
+            max-height: 25vh;
+            overflow-y: auto;
+        }
+        ::-webkit-scrollbar {
+            -webkit-appearance: none;
+            width: 7px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            border-radius: 4px;
+            background-color: rgba(0, 0, 0, .5);
+            box-shadow: 0 0 1px rgba(255, 255, 255, .5);
+        }
+    }
+</style>
+{{end}}
+
+{{define "js-search-box"}}
+<span class="m-1"><input class="js-search-selector" multiple="multiple"></span>
+{{end}}
+
+{{define "content"}}
+{{template "page-title" .data}}
+{{template "error-block" .data}}
+<div class="row">
+    <div class="col-sm-12 col-md-4 col-lg-3 border-end mb-2">
+        <h6>
+            Tags {{if .data.TagsCount}}
+            ({{.data.TagsCount}})
+            <a title="Export Bookmarks" class="btn btn-sm float-end mx-1 p-0 open-export-page"
+                href="/export/bookmarks" target="_blank" rel="noopener noreferrer">
+                <i class="bi bi-cloud-download"></i>
+            </a>
+            {{end}}
+        </h6>
+        <div class="list-group list-group-flush overflow-auto" id="tag-list">
+            {{range .data.Tags}}
+            <a href="/bookmarks?tag={{.}}"
+                class="list-group-item d-flex justify-content-between align-items-center p-1 {{if eq . $.data.Query.Tag}}list-group-item-primary{{end}}">
+                {{.}}
+                {{if eq . $.data.Query.Tag}}
+                <span class="badge bg-primary rounded-pill">{{$.data.ItemsCount}}</span>
+                {{end}}
+            </a>
+            {{end}}
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-8 col-lg-9" id="anchor-items">
+        <h6>
+            Items <span class="btn btn-sm btn-outline-primary py-0 mx-1 px-1"
+                id="show-add-form" title="Create a bookmark">
+                <i class="bi bi-plus"></i>
+            </span>
+        </h6>
+        <div id="add-bookmark-form" class="card">
+            <div class="card-body">                
+                <div class="mb-1 input-group">
+                    <span class="input-group-text">Title</span>
+                    <input type="text" class="form-control form-control-sm" autocomplete="off"
+                            id="title" placeholder="Bookmark Title" required>
+                </div>
+                <div class="mb-1 input-group">
+                    <span class="input-group-text">URL</span>
+                    <input type="url" class="form-control form-control-sm"
+                            autocomplete="off"
+                            id="url" placeholder="Bookmark URL" required>
+                </div>
+                <div class="mb-1 input-group">
+                    <span class="input-group-text">Tags</span>
+                    <input type="text" class="form-control form-control-sm" autocomplete="off"
+                            {{if .data.Query.Tag}}value="{{.data.Query.Tag}}"{{end}}
+                            id="tags" placeholder="Tags (comma- or space-separated)">
+                </div>
+            </div>
+            <div class="card-footer">
+                <button class="btn btn-sm btn-secondary" id="cancel-add">Cancel</button>
+                <button class="btn btn-sm btn-primary" id="add-item">Submit</button>
+            </div>
+        </div>
+        
+        {{if .data.Items}}
+        <div class="mt-2" id="bookmarks-list">
+            <ul class="list-group">
+            {{range .data.Items}}
+                <li class="list-group-item d-flex p-0">
+                    <span class="p-1 flex-grow-1 overflow-hidden text-truncate">
+                        <a href="{{.URL}}" target="_blank">{{.Title}}</a>
+                    </span>
+                    <span class="pt-1 pb-1 ps-2 pe-1">
+                        {{range .Tags}}
+                        <a href="/bookmarks?tag={{.}}" class="badge bg-info">{{.}}</a>
+                        {{end}}
+                    </span>
+                    <span class="pt-1 pb-1 pe-2 ps-0">
+                        <div class="dropdown">
+                            <a class="btn btn-sm btn-outline-secondary dropdown-toggle py-0" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"></a>
+                            <ul class="dropdown-menu">
+                                <li class="btn-edit" data-id="{{.ID}}">
+                                    <a class="dropdown-item" href="/bookmark/{{.ID}}/edit">
+                                        <i class="bi bi-pencil-square"></i> edit...
+                                    </a>
+                                </li>
+                                <li class="btn-delete" data-id="{{.ID}}">
+                                    <span class="dropdown-item">
+                                        <i class="bi bi-trash"></i> delete
+                                    </span>
+                                </li>
+                            </ul>
+                        </div>
+                    </span>
+                </li>
+            {{end}}
+            </ul>
+        </div>
+        {{end}}
+    </div>
+</div>
+{{end}}
+
+{{define "custom_js"}}
+<script src="/assets/js/select2.min.js"></script>
+<script src="/assets/js/tagify.min.js"></script>
+<script src="/assets/js/tagify.polyfills.min.js"></script>
+<script src="/assets/js/bookmarks/index.js"></script>
+{{end}}

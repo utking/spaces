@@ -1,0 +1,36 @@
+{{ extends "layout.html" }}
+
+{{define "custom_css"}}<link href="/assets/css/tagify.css" rel="stylesheet">{{end}}
+{{define "content"}}
+{{template "page-title" .data}}
+{{template "error-block" .data}}
+<div id="edit-bookmark-form">
+    <div class="form-group">
+        <label for="title">Title</label>
+        <input type="text" class="form-control" id="title"
+            maxlength="255" placeholder="Enter bookmark title" minlength="1"
+            name="title" value="{{.data.Item.Title}}" required>
+    </div>
+    <div class="form-group mt-2">
+        <label for="url">URL</label>
+        <input type="url" class="form-control" id="url" name="url"
+            placeholder="Enter bookmark URL" minlength="1" maxlength="4096"
+            value="{{.data.Item.URL}}" required>
+    </div>
+    <div class="form-group mt-2">
+        <label for="tags">Tags</label>
+        <input class="form-control" type="text" id="tags" name="tags" value="{{.data.Item.Tags | commaSeparated}}" placeholder="Comma-separated tags">
+    </div>
+    <div class="form-group mt-2">
+        <a href="/bookmarks" class="btn btn-outline-secondary">Cancel</a>
+        <button type="submit" id="btn-save" class="btn btn-outline-primary">Save</button>
+        <input type="hidden" id="bookmark-id" value="{{.data.Item.ID}}">
+    </div>
+</div>
+{{end}}
+
+{{define "custom_js"}}
+<script src="/assets/js/tagify.min.js"></script>
+<script src="/assets/js/tagify.polyfills.min.js"></script>
+<script src="/assets/js/bookmarks/edit.js"></script>
+{{end}}

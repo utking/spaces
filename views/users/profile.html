@@ -1,0 +1,52 @@
+{{ extends "layout.html" }}
+{{define "content"}}
+{{template "page-title" .data}}
+{{template "error-block" .data}}
+<div class="row">
+    <div class="col-lg-3 col-md-2"></div>
+    <div class="col-lg-6 col-md-8">
+    {{if not .data.Error}}
+    <h6 class="subtitle">Username: {{.data.Username}}</h6>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Metric</th>
+                <th>Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th>Disk Use</th>
+                <td>{{.data.DiskUse | bytesToHuman}}</td>
+            </tr>
+            <tr>
+                <th>Notes</th>
+                <td>{{.data.NotesCount}}</td>
+            </tr>
+            <tr>
+                <th>Note Tags</th>
+                <td>{{.data.NoteTagsCount}}</td>
+            </tr>
+            <tr>
+                <th>Secrets</th>
+                <td>{{.data.SecretsCount}}</td>
+            </tr>
+            <tr>
+                <th>Secret Tags</th>
+                <td>{{.data.SecretTagsCount}}</td>
+            </tr>
+            <tr>
+                <th>Bookmarks</th>
+                <td>{{.data.BookmarksCount}}</td>
+            </tr>
+            <tr>
+                <th>Bookmark Tags</th>
+                <td>{{.data.BookmarkTagsCount}}</td>
+            </tr>
+        </tbody>
+    </table>
+    {{end}}
+    </div>
+    <div class="col-lg-3 col-md-2"></div>
+</div>
+{{end}}
