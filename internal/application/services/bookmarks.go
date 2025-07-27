@@ -4,8 +4,8 @@ import (
 	"context"
 	"errors"
 
-	"gogs.utking.net/utking/spaces/internal/application/domain"
-	"gogs.utking.net/utking/spaces/internal/ports"
+	"github.com/utking/spaces/internal/application/domain"
+	"github.com/utking/spaces/internal/ports"
 )
 
 type BookmarkService struct {

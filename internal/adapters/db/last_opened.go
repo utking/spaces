@@ -1,6 +1,6 @@
 package db
 
-import "gogs.utking.net/utking/spaces/internal/application/domain"
+import "github.com/utking/spaces/internal/application/domain"
 
 type LastOpened struct {
 	UserID string                `db:"user_id"`

@@ -13,8 +13,8 @@ import (
 	"github.com/golang-migrate/migrate/v4/database/sqlite"
 	"github.com/golang-migrate/migrate/v4/source/iofs"
 	"github.com/jmoiron/sqlx"
-	"gogs.utking.net/utking/spaces/internal/config"
-	"gogs.utking.net/utking/spaces/migrations"
+	"github.com/utking/spaces/internal/config"
+	"github.com/utking/spaces/migrations"
 	"xorm.io/builder"
 )
 

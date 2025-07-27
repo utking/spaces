@@ -6,7 +6,7 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
-	"gogs.utking.net/utking/spaces/internal"
+	"github.com/utking/spaces/internal"
 )
 
 // ErrorMessage returns a string representation of the error.

@@ -9,8 +9,8 @@ import (
 	"html/template"
 	"strconv"
 
-	"gogs.utking.net/utking/spaces/internal/adapters/notification/mailer/templates"
-	"gogs.utking.net/utking/spaces/internal/application/domain"
+	"github.com/utking/spaces/internal/adapters/notification/mailer/templates"
+	"github.com/utking/spaces/internal/application/domain"
 	gomail "gopkg.in/mail.v2"
 )
 

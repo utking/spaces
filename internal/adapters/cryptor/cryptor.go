@@ -8,7 +8,7 @@ import (
 	"crypto/rand"
 	"io"
 
-	"gogs.utking.net/utking/spaces/internal/application/domain"
+	"github.com/utking/spaces/internal/application/domain"
 )
 
 type CryptoKey []byte

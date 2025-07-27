@@ -11,7 +11,7 @@ import (
 	"time"
 
 	"github.com/gabriel-vasile/mimetype"
-	"gogs.utking.net/utking/spaces/internal/application/domain"
+	"github.com/utking/spaces/internal/application/domain"
 )
 
 type FSAdapter struct {

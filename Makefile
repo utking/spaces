@@ -22,7 +22,7 @@ tidy:
 	go mod tidy
 
 build: clean tidy test
-	CGO_ENABLED=0 go build -o bin/runner -ldflags="-w -s -extldflags=-static -X 'gogs.utking.net/utking/spaces/internal.Version=${UNIX_TS}'" cmd/main.go
+	CGO_ENABLED=0 go build -o bin/runner -ldflags="-w -s -extldflags=-static -X 'github.com/utking/spaces/internal.Version=${UNIX_TS}'" cmd/main.go
 
 clean:
 	rm -rf bin/

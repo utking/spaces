@@ -3,7 +3,7 @@ package domain_test
 import (
 	"testing"
 
-	"gogs.utking.net/utking/spaces/internal/application/domain"
+	"github.com/utking/spaces/internal/application/domain"
 )
 
 func TestNotificationValidationOk(t *testing.T) {

@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	"github.com/labstack/echo/v4"
-	"gogs.utking.net/utking/spaces/internal/infra/state"
+	"github.com/utking/spaces/internal/infra/state"
 )
 
 var webMenu *WebMenu

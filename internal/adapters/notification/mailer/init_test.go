@@ -4,8 +4,8 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"gogs.utking.net/utking/spaces/internal/adapters/notification/mailer"
-	"gogs.utking.net/utking/spaces/internal/application/domain"
+	"github.com/utking/spaces/internal/adapters/notification/mailer"
+	"github.com/utking/spaces/internal/application/domain"
 )
 
 func TestRenderTemplate(t *testing.T) {

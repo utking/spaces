@@ -3,8 +3,8 @@
 package state
 
 import (
-	"gogs.utking.net/utking/spaces/internal/config"
-	"gogs.utking.net/utking/spaces/internal/ports"
+	"github.com/utking/spaces/internal/config"
+	"github.com/utking/spaces/internal/ports"
 )
 
 // State represents the core application state.

@@ -5,9 +5,9 @@ import (
 	"net/http"
 
 	"github.com/labstack/echo/v4"
-	"gogs.utking.net/utking/spaces/internal/adapters/web/go_echo/helpers"
-	"gogs.utking.net/utking/spaces/internal/infra/session"
-	"gogs.utking.net/utking/spaces/internal/ports"
+	"github.com/utking/spaces/internal/adapters/web/go_echo/helpers"
+	"github.com/utking/spaces/internal/infra/session"
+	"github.com/utking/spaces/internal/ports"
 )
 
 // getProfileWrapper returns a handler function for the profile page.

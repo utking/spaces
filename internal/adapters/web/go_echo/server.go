@@ -16,13 +16,13 @@ import (
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
-	"gogs.utking.net/utking/spaces/internal/adapters/web/go_echo/handlers"
-	"gogs.utking.net/utking/spaces/internal/adapters/web/go_echo/helpers"
-	auth_ms "gogs.utking.net/utking/spaces/internal/adapters/web/go_echo/middleware"
-	"gogs.utking.net/utking/spaces/internal/config"
-	sess "gogs.utking.net/utking/spaces/internal/infra/session"
-	"gogs.utking.net/utking/spaces/internal/infra/state"
-	"gogs.utking.net/utking/spaces/static"
+	"github.com/utking/spaces/internal/adapters/web/go_echo/handlers"
+	"github.com/utking/spaces/internal/adapters/web/go_echo/helpers"
+	auth_ms "github.com/utking/spaces/internal/adapters/web/go_echo/middleware"
+	"github.com/utking/spaces/internal/config"
+	sess "github.com/utking/spaces/internal/infra/session"
+	"github.com/utking/spaces/internal/infra/state"
+	"github.com/utking/spaces/static"
 )
 
 // Adapter is the struct implementing the web server using the Echo framework.

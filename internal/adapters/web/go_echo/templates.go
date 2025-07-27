@@ -10,12 +10,12 @@ import (
 
 	"github.com/labstack/echo/v4"
 	"github.com/utking/extemplate"
-	"gogs.utking.net/utking/spaces/internal/adapters/web/go_echo/handlers"
-	"gogs.utking.net/utking/spaces/internal/adapters/web/go_echo/helpers"
-	"gogs.utking.net/utking/spaces/internal/config"
-	"gogs.utking.net/utking/spaces/internal/infra/session"
-	"gogs.utking.net/utking/spaces/internal/ports"
-	"gogs.utking.net/utking/spaces/views"
+	"github.com/utking/spaces/internal/adapters/web/go_echo/handlers"
+	"github.com/utking/spaces/internal/adapters/web/go_echo/helpers"
+	"github.com/utking/spaces/internal/config"
+	"github.com/utking/spaces/internal/infra/session"
+	"github.com/utking/spaces/internal/ports"
+	"github.com/utking/spaces/views"
 	"golang.org/x/text/language"
 	"golang.org/x/text/message"
 )

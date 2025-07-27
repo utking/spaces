@@ -6,7 +6,7 @@ import (
 	_ "github.com/golang-migrate/migrate/v4/database/mysql"
 	_ "github.com/golang-migrate/migrate/v4/database/sqlite"
 
-	"gogs.utking.net/utking/spaces/cmd/tasks"
+	"github.com/utking/spaces/cmd/tasks"
 )
 
 func main() {

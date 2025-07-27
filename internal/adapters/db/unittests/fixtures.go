@@ -7,7 +7,7 @@ import (
 
 	"github.com/go-testfixtures/testfixtures/v3"
 	"github.com/jmoiron/sqlx"
-	"gogs.utking.net/utking/spaces/internal/config"
+	"github.com/utking/spaces/internal/config"
 )
 
 var (

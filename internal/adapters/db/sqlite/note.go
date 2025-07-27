@@ -5,9 +5,9 @@ import (
 	"errors"
 	"slices"
 
-	"gogs.utking.net/utking/spaces/internal/adapters/db"
-	"gogs.utking.net/utking/spaces/internal/adapters/web/go_echo/helpers"
-	"gogs.utking.net/utking/spaces/internal/application/domain"
+	"github.com/utking/spaces/internal/adapters/db"
+	"github.com/utking/spaces/internal/adapters/web/go_echo/helpers"
+	"github.com/utking/spaces/internal/application/domain"
 	"xorm.io/builder"
 )
 

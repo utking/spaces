@@ -6,9 +6,9 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/mock"
-	"gogs.utking.net/utking/spaces/internal/application/domain"
-	"gogs.utking.net/utking/spaces/internal/application/services"
-	"gogs.utking.net/utking/spaces/internal/ports"
+	"github.com/utking/spaces/internal/application/domain"
+	"github.com/utking/spaces/internal/application/services"
+	"github.com/utking/spaces/internal/ports"
 )
 
 func TestGetNoteTags(t *testing.T) {

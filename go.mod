@@ -1,4 +1,4 @@
-module gogs.utking.net/utking/spaces
+module github.com/utking/spaces
 
 go 1.24
 

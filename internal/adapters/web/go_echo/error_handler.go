@@ -6,7 +6,7 @@ import (
 	"net/http"
 
 	"github.com/labstack/echo/v4"
-	"gogs.utking.net/utking/spaces/internal/adapters/web/go_echo/helpers"
+	"github.com/utking/spaces/internal/adapters/web/go_echo/helpers"
 )
 
 // HTTPErrorHandler is a custom error handler for the Echo framework.

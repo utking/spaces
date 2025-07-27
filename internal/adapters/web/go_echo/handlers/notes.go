@@ -9,9 +9,9 @@ import (
 	"os"
 
 	"github.com/labstack/echo/v4"
-	"gogs.utking.net/utking/spaces/internal/adapters/web/go_echo/helpers"
-	"gogs.utking.net/utking/spaces/internal/application/domain"
-	"gogs.utking.net/utking/spaces/internal/ports"
+	"github.com/utking/spaces/internal/adapters/web/go_echo/helpers"
+	"github.com/utking/spaces/internal/application/domain"
+	"github.com/utking/spaces/internal/ports"
 )
 
 func getNotesWrapper(

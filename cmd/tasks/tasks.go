@@ -7,8 +7,8 @@ import (
 	"path/filepath"
 
 	"github.com/spf13/cobra"
-	"gogs.utking.net/utking/spaces/cmd/tasks/migrate"
-	"gogs.utking.net/utking/spaces/cmd/tasks/server"
+	"github.com/utking/spaces/cmd/tasks/migrate"
+	"github.com/utking/spaces/cmd/tasks/server"
 )
 
 var rootCmd = &cobra.Command{

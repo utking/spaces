@@ -5,8 +5,8 @@ import (
 	"errors"
 	"log"
 
-	"gogs.utking.net/utking/spaces/internal/config"
-	"gogs.utking.net/utking/spaces/migrations"
+	"github.com/utking/spaces/internal/config"
+	"github.com/utking/spaces/migrations"
 	"xorm.io/builder"
 
 	"github.com/golang-migrate/migrate/v4"

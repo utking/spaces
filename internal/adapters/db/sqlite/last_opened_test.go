@@ -4,9 +4,9 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"gogs.utking.net/utking/spaces/internal/adapters/db/sqlite"
-	"gogs.utking.net/utking/spaces/internal/adapters/db/unittests"
-	"gogs.utking.net/utking/spaces/internal/application/domain"
+	"github.com/utking/spaces/internal/adapters/db/sqlite"
+	"github.com/utking/spaces/internal/adapters/db/unittests"
+	"github.com/utking/spaces/internal/application/domain"
 )
 
 func TestGetLastOpened(t *testing.T) {

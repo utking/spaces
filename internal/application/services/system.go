@@ -4,8 +4,8 @@ import (
 	"context"
 	"runtime"
 
-	"gogs.utking.net/utking/spaces/internal/application/domain"
-	"gogs.utking.net/utking/spaces/internal/ports"
+	"github.com/utking/spaces/internal/application/domain"
+	"github.com/utking/spaces/internal/ports"
 )
 
 // SysStatService is a struct that implements the SysStatService interface.

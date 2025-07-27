@@ -5,8 +5,8 @@ import (
 	"database/sql"
 	"errors"
 
-	"gogs.utking.net/utking/spaces/internal/adapters/db"
-	"gogs.utking.net/utking/spaces/internal/application/domain"
+	"github.com/utking/spaces/internal/adapters/db"
+	"github.com/utking/spaces/internal/application/domain"
 	"xorm.io/builder"
 )
 

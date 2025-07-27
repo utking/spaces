@@ -7,10 +7,10 @@ import (
 	"strings"
 
 	"github.com/labstack/echo/v4"
-	"gogs.utking.net/utking/spaces/internal/adapters/web/go_echo/helpers"
-	"gogs.utking.net/utking/spaces/internal/config"
-	"gogs.utking.net/utking/spaces/internal/infra/session"
-	log_port "gogs.utking.net/utking/spaces/internal/ports"
+	"github.com/utking/spaces/internal/adapters/web/go_echo/helpers"
+	"github.com/utking/spaces/internal/config"
+	"github.com/utking/spaces/internal/infra/session"
+	log_port "github.com/utking/spaces/internal/ports"
 )
 
 const loginTemplate = "login.html"

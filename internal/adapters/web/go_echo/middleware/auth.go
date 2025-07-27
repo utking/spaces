@@ -8,7 +8,7 @@ import (
 
 	"github.com/labstack/echo/v4"
 	echomw "github.com/labstack/echo/v4/middleware"
-	"gogs.utking.net/utking/spaces/internal/infra/session"
+	"github.com/utking/spaces/internal/infra/session"
 )
 
 // Custom Authentication middleware

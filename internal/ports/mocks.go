@@ -8,7 +8,7 @@ import (
 	"context"
 
 	mock "github.com/stretchr/testify/mock"
-	"gogs.utking.net/utking/spaces/internal/application/domain"
+	"github.com/utking/spaces/internal/application/domain"
 )
 
 // NewMockBookmarkService creates a new instance of MockBookmarkService. It also registers a testing interface on the mock and a cleanup function to assert the mocks expectations.

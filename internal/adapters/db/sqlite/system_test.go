@@ -4,8 +4,8 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"gogs.utking.net/utking/spaces/internal/adapters/db/sqlite"
-	"gogs.utking.net/utking/spaces/internal/adapters/db/unittests"
+	"github.com/utking/spaces/internal/adapters/db/sqlite"
+	"github.com/utking/spaces/internal/adapters/db/unittests"
 )
 
 func TestGetSystemStats(t *testing.T) {

@@ -11,7 +11,7 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/pkg/errors"
 	"github.com/srinathgs/mysqlstore"
-	"gogs.utking.net/utking/spaces/internal/config"
+	"github.com/utking/spaces/internal/config"
 )
 
 func NewStore(cfg *config.Config) (sessions.Store, error) {

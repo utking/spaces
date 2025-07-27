@@ -7,9 +7,9 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"gogs.utking.net/utking/spaces/internal/adapters/db/mysql"
-	"gogs.utking.net/utking/spaces/internal/adapters/db/unittests"
-	"gogs.utking.net/utking/spaces/internal/application/domain"
+	"github.com/utking/spaces/internal/adapters/db/mysql"
+	"github.com/utking/spaces/internal/adapters/db/unittests"
+	"github.com/utking/spaces/internal/application/domain"
 )
 
 func TestGetNoteTags(t *testing.T) {

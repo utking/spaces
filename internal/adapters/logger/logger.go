@@ -6,7 +6,7 @@ import (
 	"log/slog"
 	"os"
 
-	port "gogs.utking.net/utking/spaces/internal/ports"
+	port "github.com/utking/spaces/internal/ports"
 )
 
 var (

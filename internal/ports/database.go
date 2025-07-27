@@ -3,7 +3,7 @@ package ports
 import (
 	"context"
 
-	"gogs.utking.net/utking/spaces/internal/application/domain"
+	"github.com/utking/spaces/internal/application/domain"
 )
 
 // DBPort is an interface that defines the methods for database operations.
