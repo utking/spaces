@@ -669,10 +669,6 @@ func rotateUserSecrets(
 			return fmt.Errorf("failed to get secret item %s: %w", secret.ID, err)
 		}
 
-		if len(item.EncodedSecret) == 0 {
-			return fmt.Errorf("secret %s is not encrypted, cannot re-encrypt", secret.ID)
-		}
-
 		var (
 			decoded         string
 			encodedUsername []byte
