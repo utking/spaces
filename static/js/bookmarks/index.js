@@ -112,17 +112,19 @@ document.addEventListener('DOMContentLoaded', () => {
         addItem(tagSelector.value.map(tag => tag.value));
     });
 
-    document.querySelector('.open-export-page').addEventListener('click', (e) => {
-        e.preventDefault();
-        const url = e.currentTarget.getAttribute('href');
-        bootbox.confirm('Proceed with exporting bookmarks?', (confirmed) => {
-            if (confirmed) {
-                const a = document.createElement('a');
-                a.href = url;
-                a.click();
-            }
+    if (document.querySelector('.open-export-page') {
+        document.querySelector('.open-export-page').addEventListener('click', (e) => {
+            e.preventDefault();
+            const url = e.currentTarget.getAttribute('href');
+            bootbox.confirm('Proceed with exporting bookmarks?', (confirmed) => {
+                if (confirmed) {
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.click();
+                }
+            });
         });
-    });
+    }
     
     document.querySelectorAll('.btn-delete').forEach((button) => {
         button.addEventListener('click', (event) => {
