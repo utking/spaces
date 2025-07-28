@@ -67,11 +67,11 @@ CREATE TABLE IF NOT EXISTS `password_record` (
     id varchar(36) PRIMARY KEY,
     user_id varchar(36) NOT NULL,
     `name` VARCHAR(128) NOT NULL,
-    `username` blob NOT NULL,
     `url` VARCHAR(4096) DEFAULT '',
     `description` TEXT,
     `tags` TEXT DEFAULT NULL,
-    `secret` blob NOT NULL,
+    `username` blob DEFAULT NULL,
+    `secret` blob DEFAULT NULL,
     created_at DATETIME NOT NULL DEFAULT current_timestamp,
     updated_at DATETIME NOT NULL DEFAULT current_timestamp,
     FOREIGN KEY (user_id) REFERENCES `user` (id)

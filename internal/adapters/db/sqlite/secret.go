@@ -509,6 +509,14 @@ func (a *Adapter) UpdateEncryptedSecrets(
 	}
 
 	for id, item := range items {
+		if len(item.Password) == 0 {
+			item.Password = nil
+		}
+
+		if len(item.Username) == 0 {
+			item.Username = nil
+		}
+
 		sqlBuilder := builder.Dialect(sqlDialect).
 			From(db.Secret{}.TableName()).
 			Update(
