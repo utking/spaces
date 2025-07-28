@@ -47,17 +47,19 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // set up the export notes button
-    document.querySelector('.open-export-page').addEventListener('click', (e) => {
-        e.preventDefault();
-        const url = e.currentTarget.getAttribute('href');
-        bootbox.confirm('Proceed with exporting notes?', (confirmed) => {
-            if (confirmed) {
-                const a = document.createElement('a');
-                a.href = url;
-                a.click();
-            }
+    if (document.querySelector('.open-export-page')) {
+        document.querySelector('.open-export-page').addEventListener('click', (e) => {
+            e.preventDefault();
+            const url = e.currentTarget.getAttribute('href');
+            bootbox.confirm('Proceed with exporting notes?', (confirmed) => {
+                if (confirmed) {
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.click();
+                }
+            });
         });
-    });
+    }
 
     // scroll-to handlers
     const anchorItems = document.getElementById('anchor-items');
