@@ -70,12 +70,18 @@ type User struct {
 	SendNotification bool      `                     form:"send_notification"`
 }
 
-// Trim trims the strings in the User struct.
-func (u *User) Trim() {
+// Normalize normalizes the User struct fields. Username and Email are trimmed
+// and converted to lowercase.
+func (u *User) Normalize() {
 	u.Username = strings.TrimSpace(u.Username)
+	u.Email = strings.TrimSpace(u.Email)
+
 	u.Password = strings.TrimSpace(u.Password)
 	u.PasswordConfirm = strings.TrimSpace(u.PasswordConfirm)
-	u.Email = strings.TrimSpace(u.Email)
+
+	// lowercase the username and email
+	u.Username = strings.ToLower(u.Username)
+	u.Email = strings.ToLower(u.Email)
 }
 
 // Validate checks the validity of the User struct fields.
@@ -154,13 +160,19 @@ type UserUpdate struct {
 	Status          int64  `form:"status"`
 }
 
-// Trim trims the strings in the UserUpdate struct.
-func (u *UserUpdate) Trim() {
+// Normalize normalizes the User struct fields. Username and Email are trimmed
+// and converted to lowercase.
+func (u *UserUpdate) Normalize() {
 	u.Username = strings.TrimSpace(u.Username)
-	u.Password = strings.TrimSpace(u.Password)
-	u.PasswordConfirm = strings.TrimSpace(u.PasswordConfirm)
 	u.Email = strings.TrimSpace(u.Email)
 	u.RoleName = strings.TrimSpace(u.RoleName)
+
+	u.Password = strings.TrimSpace(u.Password)
+	u.PasswordConfirm = strings.TrimSpace(u.PasswordConfirm)
+
+	// lowercase the username and email
+	u.Username = strings.ToLower(u.Username)
+	u.Email = strings.ToLower(u.Email)
 }
 
 // Validate checks the validity of the UserUpdate struct fields.

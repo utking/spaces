@@ -214,6 +214,16 @@ func TestCreateUser(t *testing.T) {
 			assert.EqualValues(t, domain.UserInactive, retrievedUser.Status)
 		}
 	}
+
+	// Attempt to create a user with an existing username (test case-insensitivity)
+	newUser.Username = "User123"             // user123 already exists
+	newUser.Email = "anotheremail@localhost" // the email is different
+
+	userID, token, err = dbAdapter.CreateUser(t.Context(), newUser)
+	if assert.Error(t, err, "CreateUser should return an error due to username conflict") {
+		assert.Empty(t, userID, "Expected no user ID to be returned due to conflict")
+		assert.Empty(t, token, "Expected no token to be returned due to conflict")
+	}
 }
 
 func TestDeleteUser(t *testing.T) {
@@ -296,6 +306,14 @@ func TestUpdateUser(t *testing.T) {
 			assert.Equal(t, "user123", retrievedUser.Username, "Username should remain unchanged")
 			// password change validation is part of testing UserService and is not handled here
 		}
+	}
+
+	// Attempt to update with an email that conflicts with another user (case-sensitivity test)
+	// Username is not something that can be updated, so we test email conflict here
+	updateUserWithPassword.Email = "UsEr678@localhost" // user678 already exists
+	affected, err = dbAdapter.UpdateUser(t.Context(), "uuid-user-12345", updateUserWithPassword)
+	if assert.Error(t, err, "UpdateUser should return an error due to username conflict") {
+		assert.Equal(t, int64(0), affected, "Expected no users to be updated due to conflict")
 	}
 }
 

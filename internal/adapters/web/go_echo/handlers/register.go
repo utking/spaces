@@ -73,7 +73,7 @@ func processRegisterPost(
 
 	_ = c.Bind(query)
 	// trim all strings in the query
-	query.Trim()
+	query.Normalize()
 	query.SendNotification = true // self-registration always sends a notification
 
 	err := query.Validate()

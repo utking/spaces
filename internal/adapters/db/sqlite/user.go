@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
+	"strings"
 	"time"
 
 	"github.com/utking/spaces/internal/adapters/db"
@@ -164,8 +165,8 @@ func (a *Adapter) CreateUser(ctx context.Context, req *domain.User) (id, token s
 	var dbItem db.User
 
 	id = helpers.GenerateUUID()
-	dbItem.Username = req.Username
-	dbItem.Email = req.Email
+	dbItem.Username = strings.ToLower(req.Username)
+	dbItem.Email = strings.ToLower(req.Email)
 	dbItem.PasswordHash, _ = domain.GetPasswordHash(req.Password)
 	dbItem.ActivationToken = domain.GenerateRandomString(32)
 
@@ -282,7 +283,7 @@ func (a *Adapter) updateUserRole(ctx context.Context, userID, roleName string) e
 func (a *Adapter) UpdateUser(ctx context.Context, id string, req *domain.UserUpdate) (int64, error) {
 	var dbItem db.User
 
-	dbItem.Email = req.Email
+	dbItem.Email = strings.ToLower(req.Email)
 	dbItem.Status = req.Status
 
 	if req.Password != "" {

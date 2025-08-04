@@ -117,7 +117,7 @@ func postUserCreateWrapper(
 
 		_ = c.Bind(query)
 		// trim all strings in the query
-		query.Trim()
+		query.Normalize()
 
 		err := query.Validate()
 		if err == nil {
@@ -250,7 +250,7 @@ func postUserEditWrapper(
 		}
 
 		// trim all strings in the query and validate
-		query.Trim()
+		query.Normalize()
 
 		if err = query.Validate(); err != nil {
 			code = http.StatusBadRequest
