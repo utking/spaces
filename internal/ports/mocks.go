@@ -2741,6 +2741,74 @@ func (_c *MockDBPort_GetUserByUsername_Call) RunAndReturn(run func(ctx context.C
 	return _c
 }
 
+// GetUserSettings provides a mock function for the type MockDBPort
+func (_mock *MockDBPort) GetUserSettings(ctx context.Context, id string) (*domain.UserSettings, error) {
+	ret := _mock.Called(ctx, id)
+
+	if len(ret) == 0 {
+		panic("no return value specified for GetUserSettings")
+	}
+
+	var r0 *domain.UserSettings
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string) (*domain.UserSettings, error)); ok {
+		return returnFunc(ctx, id)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string) *domain.UserSettings); ok {
+		r0 = returnFunc(ctx, id)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*domain.UserSettings)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, string) error); ok {
+		r1 = returnFunc(ctx, id)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDBPort_GetUserSettings_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'GetUserSettings'
+type MockDBPort_GetUserSettings_Call struct {
+	*mock.Call
+}
+
+// GetUserSettings is a helper method to define mock.On call
+//   - ctx context.Context
+//   - id string
+func (_e *MockDBPort_Expecter) GetUserSettings(ctx interface{}, id interface{}) *MockDBPort_GetUserSettings_Call {
+	return &MockDBPort_GetUserSettings_Call{Call: _e.mock.On("GetUserSettings", ctx, id)}
+}
+
+func (_c *MockDBPort_GetUserSettings_Call) Run(run func(ctx context.Context, id string)) *MockDBPort_GetUserSettings_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 string
+		if args[1] != nil {
+			arg1 = args[1].(string)
+		}
+		run(
+			arg0,
+			arg1,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDBPort_GetUserSettings_Call) Return(userSettings *domain.UserSettings, err error) *MockDBPort_GetUserSettings_Call {
+	_c.Call.Return(userSettings, err)
+	return _c
+}
+
+func (_c *MockDBPort_GetUserSettings_Call) RunAndReturn(run func(ctx context.Context, id string) (*domain.UserSettings, error)) *MockDBPort_GetUserSettings_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // GetUsers provides a mock function for the type MockDBPort
 func (_mock *MockDBPort) GetUsers(ctx context.Context, req *domain.UserRequest) ([]domain.User, error) {
 	ret := _mock.Called(ctx, req)
@@ -3662,6 +3730,69 @@ func (_c *MockDBPort_UpdateUserAuthKey_Call) Return(err error) *MockDBPort_Updat
 }
 
 func (_c *MockDBPort_UpdateUserAuthKey_Call) RunAndReturn(run func(ctx context.Context, uid string, newEncKey []byte) error) *MockDBPort_UpdateUserAuthKey_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// UpdateUserSettings provides a mock function for the type MockDBPort
+func (_mock *MockDBPort) UpdateUserSettings(ctx context.Context, id string, settings *domain.UserSettings) error {
+	ret := _mock.Called(ctx, id, settings)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UpdateUserSettings")
+	}
+
+	var r0 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, *domain.UserSettings) error); ok {
+		r0 = returnFunc(ctx, id, settings)
+	} else {
+		r0 = ret.Error(0)
+	}
+	return r0
+}
+
+// MockDBPort_UpdateUserSettings_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'UpdateUserSettings'
+type MockDBPort_UpdateUserSettings_Call struct {
+	*mock.Call
+}
+
+// UpdateUserSettings is a helper method to define mock.On call
+//   - ctx context.Context
+//   - id string
+//   - settings *domain.UserSettings
+func (_e *MockDBPort_Expecter) UpdateUserSettings(ctx interface{}, id interface{}, settings interface{}) *MockDBPort_UpdateUserSettings_Call {
+	return &MockDBPort_UpdateUserSettings_Call{Call: _e.mock.On("UpdateUserSettings", ctx, id, settings)}
+}
+
+func (_c *MockDBPort_UpdateUserSettings_Call) Run(run func(ctx context.Context, id string, settings *domain.UserSettings)) *MockDBPort_UpdateUserSettings_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 string
+		if args[1] != nil {
+			arg1 = args[1].(string)
+		}
+		var arg2 *domain.UserSettings
+		if args[2] != nil {
+			arg2 = args[2].(*domain.UserSettings)
+		}
+		run(
+			arg0,
+			arg1,
+			arg2,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDBPort_UpdateUserSettings_Call) Return(err error) *MockDBPort_UpdateUserSettings_Call {
+	_c.Call.Return(err)
+	return _c
+}
+
+func (_c *MockDBPort_UpdateUserSettings_Call) RunAndReturn(run func(ctx context.Context, id string, settings *domain.UserSettings) error) *MockDBPort_UpdateUserSettings_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -8129,6 +8260,74 @@ func (_c *MockUsersService_GetItems_Call) RunAndReturn(run func(ctx context.Cont
 	return _c
 }
 
+// GetUserSettings provides a mock function for the type MockUsersService
+func (_mock *MockUsersService) GetUserSettings(ctx context.Context, id string) (*domain.UserSettings, error) {
+	ret := _mock.Called(ctx, id)
+
+	if len(ret) == 0 {
+		panic("no return value specified for GetUserSettings")
+	}
+
+	var r0 *domain.UserSettings
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string) (*domain.UserSettings, error)); ok {
+		return returnFunc(ctx, id)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string) *domain.UserSettings); ok {
+		r0 = returnFunc(ctx, id)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*domain.UserSettings)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, string) error); ok {
+		r1 = returnFunc(ctx, id)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockUsersService_GetUserSettings_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'GetUserSettings'
+type MockUsersService_GetUserSettings_Call struct {
+	*mock.Call
+}
+
+// GetUserSettings is a helper method to define mock.On call
+//   - ctx context.Context
+//   - id string
+func (_e *MockUsersService_Expecter) GetUserSettings(ctx interface{}, id interface{}) *MockUsersService_GetUserSettings_Call {
+	return &MockUsersService_GetUserSettings_Call{Call: _e.mock.On("GetUserSettings", ctx, id)}
+}
+
+func (_c *MockUsersService_GetUserSettings_Call) Run(run func(ctx context.Context, id string)) *MockUsersService_GetUserSettings_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 string
+		if args[1] != nil {
+			arg1 = args[1].(string)
+		}
+		run(
+			arg0,
+			arg1,
+		)
+	})
+	return _c
+}
+
+func (_c *MockUsersService_GetUserSettings_Call) Return(userSettings *domain.UserSettings, err error) *MockUsersService_GetUserSettings_Call {
+	_c.Call.Return(userSettings, err)
+	return _c
+}
+
+func (_c *MockUsersService_GetUserSettings_Call) RunAndReturn(run func(ctx context.Context, id string) (*domain.UserSettings, error)) *MockUsersService_GetUserSettings_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // Update provides a mock function for the type MockUsersService
 func (_mock *MockUsersService) Update(ctx context.Context, id string, req *domain.UserUpdate) (int64, error) {
 	ret := _mock.Called(ctx, id, req)
@@ -8260,6 +8459,69 @@ func (_c *MockUsersService_UpdateAuthKey_Call) Return(err error) *MockUsersServi
 }
 
 func (_c *MockUsersService_UpdateAuthKey_Call) RunAndReturn(run func(ctx context.Context, uid string, newEncKey []byte) error) *MockUsersService_UpdateAuthKey_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// UpdateUserSettings provides a mock function for the type MockUsersService
+func (_mock *MockUsersService) UpdateUserSettings(ctx context.Context, id string, settings *domain.UserSettings) error {
+	ret := _mock.Called(ctx, id, settings)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UpdateUserSettings")
+	}
+
+	var r0 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, *domain.UserSettings) error); ok {
+		r0 = returnFunc(ctx, id, settings)
+	} else {
+		r0 = ret.Error(0)
+	}
+	return r0
+}
+
+// MockUsersService_UpdateUserSettings_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'UpdateUserSettings'
+type MockUsersService_UpdateUserSettings_Call struct {
+	*mock.Call
+}
+
+// UpdateUserSettings is a helper method to define mock.On call
+//   - ctx context.Context
+//   - id string
+//   - settings *domain.UserSettings
+func (_e *MockUsersService_Expecter) UpdateUserSettings(ctx interface{}, id interface{}, settings interface{}) *MockUsersService_UpdateUserSettings_Call {
+	return &MockUsersService_UpdateUserSettings_Call{Call: _e.mock.On("UpdateUserSettings", ctx, id, settings)}
+}
+
+func (_c *MockUsersService_UpdateUserSettings_Call) Run(run func(ctx context.Context, id string, settings *domain.UserSettings)) *MockUsersService_UpdateUserSettings_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 string
+		if args[1] != nil {
+			arg1 = args[1].(string)
+		}
+		var arg2 *domain.UserSettings
+		if args[2] != nil {
+			arg2 = args[2].(*domain.UserSettings)
+		}
+		run(
+			arg0,
+			arg1,
+			arg2,
+		)
+	})
+	return _c
+}
+
+func (_c *MockUsersService_UpdateUserSettings_Call) Return(err error) *MockUsersService_UpdateUserSettings_Call {
+	_c.Call.Return(err)
+	return _c
+}
+
+func (_c *MockUsersService_UpdateUserSettings_Call) RunAndReturn(run func(ctx context.Context, id string, settings *domain.UserSettings) error) *MockUsersService_UpdateUserSettings_Call {
 	_c.Call.Return(run)
 	return _c
 }

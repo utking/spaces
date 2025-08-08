@@ -1,0 +1,28 @@
+.EasyMDEContainer1, .CodeMirror.cm-s-easymde {
+  background-color: rgb(117, 117, 117);
+}
+.editor-preview-full, .editor-preview, .editor-preview-active,
+.CodeMirror.cm-s-easymde {
+  background-color: rgb(117, 117, 117);
+}
+.editor-toolbar button.active, .editor-toolbar button:hover {
+  background: none;
+}
+.editor-toolbar.fullscreen {
+    background: #212529;
+}
+.cm-s-easymde .cm-link {
+    color: #dce5e6;
+}
+
+pre code {
+  color: black;
+}
+
+.CodeMirror {
+  color: #dce5e6;
+}
+
+.editor-preview pre {
+  background-color: rgb(157, 154, 154);
+}

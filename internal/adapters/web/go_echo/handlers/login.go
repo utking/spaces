@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
+	"strconv"
 	"strings"
 
 	"github.com/labstack/echo/v4"
@@ -93,6 +94,15 @@ func processLoginPost(
 				c.Request().Context(),
 				fmt.Sprintf("failed to create user profile directory: %v", err),
 			)
+		}
+
+		// load UserSettings from database and save to session
+		userID := GetUserID(c, api)
+		userSettings, usErr := api.GetUserSettings(c.Request().Context(), userID)
+
+		if usErr == nil {
+			_ = session.SetStrVar(c, "dark_mode", strconv.FormatBool(userSettings.DarkModeEnabled))
+			_ = session.SetStrVar(c, "file_browser_tiles", strconv.FormatBool(userSettings.FileBrowserTiles))
 		}
 
 		return c.Redirect(http.StatusSeeOther, "/")

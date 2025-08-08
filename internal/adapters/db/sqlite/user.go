@@ -537,3 +537,103 @@ func (a *Adapter) UpdateUserAuthKey(ctx context.Context, userID string, newEncKe
 
 	return nil
 }
+
+// GetUserSettings retrieves the user settings for a user by their ID.
+func (a *Adapter) GetUserSettings(ctx context.Context, id string) (*domain.UserSettings, error) {
+	var dbItem db.UserSettings
+
+	sqlBuilder := builder.Dialect(sqlDialect).
+		Select("value").
+		From(dbItem.TableName()).
+		Where(builder.Eq{"user_id": id})
+
+	sqlStr, err := sqlBuilder.ToBoundSQL()
+	if err != nil {
+		return nil, fmt.Errorf("SQL error getting user settings: %w", err)
+	}
+
+	err = a.db.GetContext(ctx, &dbItem, sqlStr)
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return nil, fmt.Errorf("user settings for user with id %s not found", id)
+		}
+
+		return nil, fmt.Errorf("failed to get user settings: %w", err)
+	}
+
+	return dbItem.ToStruct()
+}
+
+// UpdateUserSettings updates the user settings for a user by their ID.
+func (a *Adapter) UpdateUserSettings(
+	ctx context.Context,
+	id string,
+	settings *domain.UserSettings,
+) error {
+	if settings == nil {
+		return errors.New("settings cannot be nil")
+	}
+
+	settingsJSON := settings.ToJSON()
+	if settingsJSON == "" {
+		return errors.New("failed to convert settings to JSON")
+	}
+
+	// Check if the user settings already exist
+	var count int64
+
+	sqlBuilder := builder.Dialect(sqlDialect).
+		Select("COUNT(1) as count").
+		From(db.UserSettings{}.TableName()).
+		Where(builder.Eq{"user_id": id})
+
+	cntSQLStr, err := sqlBuilder.ToBoundSQL()
+	if err != nil {
+		return fmt.Errorf("SQL error checking user settings: %w", err)
+	}
+
+	err = a.db.GetContext(ctx, &count, cntSQLStr)
+	if err != nil {
+		return fmt.Errorf("failed to check user settings: %w", err)
+	}
+
+	if count == 0 {
+		// If the settings do not exist, insert a new record
+		sqlBuilder = builder.Dialect(sqlDialect).
+			Insert(builder.Eq{
+				"user_id": id,
+				"value":   settingsJSON,
+			}).
+			Into(db.UserSettings{}.TableName())
+
+		insSQLStr, args, insErr := sqlBuilder.ToSQL()
+		if insErr != nil {
+			return fmt.Errorf("SQL error inserting user settings: %w", insErr)
+		}
+
+		_, insErr = a.db.ExecContext(ctx, insSQLStr, args...)
+		if insErr != nil {
+			return fmt.Errorf("failed to insert user settings: %w", insErr)
+		}
+
+		return nil
+	}
+
+	// If the settings exist, update the record
+	sqlBuilder = builder.Dialect(sqlDialect).
+		Update(builder.Eq{"value": settingsJSON}).
+		From(db.UserSettings{}.TableName()).
+		Where(builder.Eq{"user_id": id})
+
+	updSQLStr, args, err := sqlBuilder.ToSQL()
+	if err != nil {
+		return fmt.Errorf("SQL error updating user settings: %w", err)
+	}
+
+	_, err = a.db.ExecContext(ctx, updSQLStr, args...)
+	if err != nil {
+		return fmt.Errorf("failed to update user settings: %w", err)
+	}
+
+	return nil
+}

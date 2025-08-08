@@ -46,7 +46,29 @@
         </tbody>
     </table>
     {{end}}
+
+    <div class="form-check form-switch">
+        <form>
+            <!-- enable dark mode -->
+            <div class="form-group">
+                <input class="form-check-input" type="checkbox" id="darkModeCheckbox" {{if $.darkMode}}checked{{end}}>
+                <label class="form-check-label" for="darkModeCheckbox">Enable Dark Mode</label>
+            </div>
+            <!-- use tiles in filebrowser -->
+            <div class="form-group">
+                <input class="form-check-input" type="checkbox" id="fileBrowserTilesCheckbox" {{if $.fileBrowserTiles}}checked{{end}}>
+                <label class="form-check-label" for="fileBrowserTilesCheckbox">Use Tiles in File Browser</label>
+            </div>
+            <!-- save button -->
+            <div class="form-group">
+                <span class="btn btn-outline-primary" id="saveSettingsButton">Save Settings</span>
+            </div>
+        </form>
     </div>
-    <div class="col-lg-3 col-md-2"></div>
+    </div>
 </div>
+{{end}}
+
+{{define "custom_js"}}
+<script src="/assets/js/users/settings.js"></script>
 {{end}}

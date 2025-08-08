@@ -34,6 +34,9 @@ type DBPort interface {
 	ChangePassword(ctx context.Context, id string, newPassword string) error
 	GetUserAuthKey(ctx context.Context, id string) ([]byte, error)
 	UpdateUserAuthKey(ctx context.Context, uid string, newEncKey []byte) error
+	// User Settings
+	GetUserSettings(ctx context.Context, id string) (*domain.UserSettings, error)
+	UpdateUserSettings(ctx context.Context, id string, settings *domain.UserSettings) error
 
 	// Secrets
 	GetSecretTags(ctx context.Context, uid string) ([]string, error)

@@ -3,6 +3,8 @@ package db
 import (
 	"errors"
 	"time"
+
+	"github.com/utking/spaces/internal/application/domain"
 )
 
 // User represents a user in the database.
@@ -75,4 +77,25 @@ func (a *AuthAssignment) Validate() error {
 	}
 
 	return nil
+}
+
+// UserSettings represents the settings for a user in the database.
+type UserSettings struct {
+	UserID string `db:"user_id"`
+	Value  string `db:"value"` // JSON encoded settings
+}
+
+// TableName returns the name of the table in the database for UserSettings.
+func (UserSettings) TableName() string {
+	return "user_settings"
+}
+
+// ToStruct converts the UserSettings to a struct from domain.UserSettings.
+func (s *UserSettings) ToStruct() (*domain.UserSettings, error) {
+	settings, err := domain.UserSettings{}.FromJSON(s.Value)
+	if err != nil {
+		return &domain.UserSettings{}, nil
+	}
+
+	return settings, nil
 }

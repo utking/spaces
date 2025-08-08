@@ -89,6 +89,7 @@ func setUsersRouting(
 	e.POST("/user/create", postUserCreateWrapper(state.Users, state.Mailer, state.Logger, state.Config))
 	e.GET("/user/:id/edit", getUserEditWrapper(state.Users))
 	e.PUT("/user/:id/edit", postUserEditWrapper(state.Users))
+	e.PUT("/users/settings", putUserSettingsWrapper(state.Users))
 	e.DELETE("/user/:id", deleteUserWrapper(state.Users))
 	e.GET("/verify-user", getUserVerifyWrapper(state.Users, state.Logger, state.Config))
 }

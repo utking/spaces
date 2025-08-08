@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
+	"strconv"
 
 	"github.com/labstack/echo/v4"
 	"github.com/utking/spaces/internal/adapters/notification/mailer"
@@ -345,5 +346,36 @@ func getUserVerifyWrapper(
 		_ = session.StartSession(c, user.Username, "user", sessTTLSec, cfg.GetWithTLS())
 
 		return c.Redirect(http.StatusSeeOther, "/") // Redirect to the home page after verification
+	}
+}
+
+// putUserSettingsWrapper returns a handler function that enables dark mode for a user.
+func putUserSettingsWrapper(
+	api ports.UsersService,
+) echo.HandlerFunc {
+	return func(c echo.Context) error {
+		var (
+			id    = GetUserID(c, api)
+			query = new(domain.UserSettings)
+		)
+		if err := c.Bind(query); err != nil {
+			return c.JSON(
+				http.StatusBadRequest,
+				map[string]interface{}{
+					"Error": helpers.ErrorMessage(err),
+				},
+			)
+		}
+		err := api.UpdateUserSettings(c.Request().Context(), id, query)
+		if err == nil {
+			_ = session.SetStrVar(c, "dark_mode", strconv.FormatBool(query.DarkModeEnabled))
+			_ = session.SetStrVar(c, "file_browser_tiles", strconv.FormatBool(query.FileBrowserTiles))
+		}
+		return c.JSON(
+			http.StatusOK,
+			map[string]interface{}{
+				"Error": helpers.ErrorMessage(err),
+			},
+		)
 	}
 }

@@ -124,16 +124,21 @@ func (t *Template) Render(
 		menu.AdminItems = nil
 	}
 
+	darkMode, _ := session.GetStrVar(c, "dark_mode")
+	fileBrowserTiles, _ := session.GetStrVar(c, "file_browser_tiles")
+
 	err := t.worker.ExecuteTemplate(
 		w,
 		name,
 		map[string]interface{}{
-			"data":     data,
-			"title":    t.cfg.GetAppName(),
-			"year":     time.Now().Year(),
-			"menu":     menu,
-			"username": strings.TrimSpace(username),
-			"version":  helpers.GetReleaseVersion(),
+			"data":             data,
+			"title":            t.cfg.GetAppName(),
+			"darkMode":         darkMode == "true",
+			"fileBrowserTiles": fileBrowserTiles == "true",
+			"year":             time.Now().Year(),
+			"menu":             menu,
+			"username":         strings.TrimSpace(username),
+			"version":          helpers.GetReleaseVersion(),
 		})
 	if err != nil {
 		t.logger.Error(

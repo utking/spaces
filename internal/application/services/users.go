@@ -8,6 +8,10 @@ import (
 	"github.com/utking/spaces/internal/ports"
 )
 
+const (
+	fakeHash = "$2a$13$Xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.xxx"
+)
+
 // UsersService is a struct that implements the UsersService interface.
 type UsersService struct {
 	db ports.DBPort
@@ -74,11 +78,15 @@ func (a *UsersService) Delete(ctx context.Context, id string) error {
 // database. It returns an error if the validation fails.
 func (a *UsersService) ValidateUser(ctx context.Context, username, password string) (string, error) {
 	user, err := a.db.GetUserByUsername(ctx, username)
-	if err != nil {
-		return "", errors.New("valivation failed")
+	if err != nil || user == nil {
+		// should not return an error here, to prevent information leakage
+		// and time-based attacks
+		_ = domain.PasswordVerify("no-password", fakeHash)
+
+		return "", errors.New("invalid username or password")
 	}
 
-	if user == nil || !(domain.PasswordVerify(password, user.PasswordHash)) {
+	if !(domain.PasswordVerify(password, user.PasswordHash)) {
 		return "", errors.New("invalid username or password")
 	}
 
@@ -154,4 +162,42 @@ func (a *UsersService) UpdateAuthKey(ctx context.Context, uid string, newEncKey 
 	}
 
 	return a.db.UpdateUserAuthKey(ctx, uid, newEncKey)
+}
+
+// GetUserSettings retrieves the user settings for a user by their ID.
+func (a *UsersService) GetUserSettings(
+	ctx context.Context,
+	id string,
+) (*domain.UserSettings, error) {
+	if id == "" {
+		return nil, errors.New("user ID must be provided")
+	}
+
+	settings, err := a.db.GetUserSettings(ctx, id)
+	if err != nil {
+		return nil, err
+	}
+
+	if settings == nil {
+		settings = &domain.UserSettings{}
+	}
+
+	return settings, nil
+}
+
+// UpdateUserSettings updates the user settings for a user by their ID.
+func (a *UsersService) UpdateUserSettings(
+	ctx context.Context,
+	id string,
+	settings *domain.UserSettings,
+) error {
+	if id == "" {
+		return errors.New("user ID must be provided")
+	}
+
+	if settings == nil {
+		return errors.New("settings must not be nil")
+	}
+
+	return a.db.UpdateUserSettings(ctx, id, settings)
 }

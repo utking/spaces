@@ -22,4 +22,6 @@ type UsersService interface {
 	CreateDataDirectory(ctx context.Context, uid string) error
 	GetAuthKey(ctx context.Context, id string) ([]byte, error)
 	UpdateAuthKey(ctx context.Context, uid string, newEncKey []byte) error
+	GetUserSettings(ctx context.Context, id string) (*domain.UserSettings, error)
+	UpdateUserSettings(ctx context.Context, id string, settings *domain.UserSettings) error
 }
