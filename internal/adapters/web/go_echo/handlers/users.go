@@ -358,6 +358,7 @@ func putUserSettingsWrapper(
 			id    = GetUserID(c, api)
 			query = new(domain.UserSettings)
 		)
+
 		if err := c.Bind(query); err != nil {
 			return c.JSON(
 				http.StatusBadRequest,
@@ -366,11 +367,13 @@ func putUserSettingsWrapper(
 				},
 			)
 		}
+
 		err := api.UpdateUserSettings(c.Request().Context(), id, query)
 		if err == nil {
 			_ = session.SetStrVar(c, "dark_mode", strconv.FormatBool(query.DarkModeEnabled))
 			_ = session.SetStrVar(c, "file_browser_tiles", strconv.FormatBool(query.FileBrowserTiles))
 		}
+
 		return c.JSON(
 			http.StatusOK,
 			map[string]interface{}{

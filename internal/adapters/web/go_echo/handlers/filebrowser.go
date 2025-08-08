@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"path"
 	"slices"
+	"strconv"
 
 	"github.com/labstack/echo/v4"
 	"github.com/utking/spaces/internal/adapters/web/go_echo/helpers"
@@ -25,13 +26,13 @@ func getFileBrowserWrapper(
 ) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		tplFile := "filebrowser/index.html"
+		viewMode := "list"
 		basePath := fileBrowser.CleanPath(c.QueryParam("path"))
 		parentPath := fileBrowser.CleanPath(basePath + "/..")
-		viewMode, _ := session.GetStrVar(c, "filebrowser_view_mode")
-		if viewMode == domain.FileBrowserViewModeTiles {
+		viewModeTiles, _ := session.GetStrVar(c, "file_browser_tiles")
+		if viewModeTiles == "true" {
 			tplFile = "filebrowser/index-tiles.html"
-		} else {
-			viewMode = domain.FileBrowserViewModeList // Default view mode
+			viewMode = "tile"
 		}
 
 		// Get the user ID from the session
@@ -375,11 +376,12 @@ func postFileBrowserSetViewModeWrapper(
 			code   = http.StatusOK
 		)
 
-		if userID == "" {
+		curSettings, usErr := usersService.GetUserSettings(c.Request().Context(), userID)
+		if usErr != nil {
 			return c.JSON(
 				http.StatusInternalServerError,
 				map[string]string{
-					"Error": "User ID not found in session",
+					"Error": "Could not read user settings",
 				})
 		}
 
@@ -391,19 +393,25 @@ func postFileBrowserSetViewModeWrapper(
 			viewMode = domain.FileBrowserViewModeList // Default view mode
 		}
 
-		// Set the view mode in the session
-		if err := session.SetStrVar(
-			c,
-			"filebrowser_view_mode",
-			viewMode,
-		); err != nil {
+		switch viewMode {
+		case domain.FileBrowserViewModeList:
+			curSettings.FileBrowserTiles = false
+		case domain.FileBrowserViewModeTiles:
+			curSettings.FileBrowserTiles = true
+		}
+
+		usErr = usersService.UpdateUserSettings(c.Request().Context(), userID, curSettings)
+		if usErr != nil {
 			code = http.StatusInternalServerError
 			return c.JSON(
 				code,
 				map[string]string{
-					"Error": fmt.Sprintf("Failed to set view mode: %v", err),
+					"Error": fmt.Sprintf("Failed to set view mode: %v", usErr),
 				})
 		}
+
+		// Set the view mode in the session
+		_ = session.SetStrVar(c, "file_browser_tiles", strconv.FormatBool(curSettings.FileBrowserTiles))
 
 		return c.NoContent(code)
 	}
